@@ -1,9 +1,9 @@
 FROM debian:stretch
 
 RUN apt-get update; \
-    apt-get install -y default-jre wget unzip; \
-    \
-    cd tmp; wget https://cdn.sencha.com/cmd/6.2.0/no-jre/SenchaCmd-6.2.0-linux-amd64.sh.zip; \
+    apt-get install -y default-jre wget unzip
+
+RUN cd tmp; wget https://cdn.sencha.com/cmd/6.2.0/no-jre/SenchaCmd-6.2.0-linux-amd64.sh.zip; \
     unzip SenchaCmd-6.2.0-linux-amd64.sh.zip; \
     VERSION=$(ls | grep "SenchaCmd.*sh$" | cut -d"-" -f2); \
     ./SenchaCmd-$VERSION-linux-amd64.sh -q -dir /opt/sencha/cmd/$VERSION -Dall=true; \
@@ -18,6 +18,8 @@ RUN apt-get update; \
     \
     apt-get clean
 
-WORKDIR /extjs
+RUN mkdir /app
+
+WORKDIR /app
 
 CMD ["sencha", "app", "watch"]
